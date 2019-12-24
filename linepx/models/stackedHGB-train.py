@@ -53,12 +53,12 @@ class stackHourglassTrainer():
             loss.backward()
             self.optimizer.step()
             runTime = time.time() - start
+            print(i,loss.data)
+            avgLoss = (avgLoss * i + loss.data.item()) / (i + 1)
 
-            avgLoss = (avgLoss * i + loss.data[0]) / (i + 1)
-
-            log = 'Epoch: [%d][%d/%d] Time %1.3f Data %1.3f Err %1.4f\n' % (epoch, i, len(trainLoader), runTime, dataTime, loss.data[0])
+            log = 'Epoch: [%d][%d/%d] Time %1.3f Data %1.3f Err %1.4f\n' % (epoch, i, len(trainLoader), runTime, dataTime, loss.data.item())
             self.logger['train'].write(log)
-            self.progbar.update(i, [('Time', runTime), ('Loss', loss.data[0])])
+            self.progbar.update(i, [('Time', runTime), ('Loss', loss.data.item())])
 
             if i <= self.opt.visTrain:
                 visImg.append(inputData)

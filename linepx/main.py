@@ -12,7 +12,7 @@ def main():
     #cudnn.benchmark = True
 
     opt = opts.parse()
-    print(("device id: {}".format(torch.cuda.current_device())))
+    #print(("device id: {}".format(torch.cuda.current_device())))
 
 
     models = importlib.import_module('models.init')
@@ -41,7 +41,8 @@ def main():
 
     # Create model
     model, optimState = models.setup(opt, checkpoint)
-    model.cuda()
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    model.to(device)
 
     criterion = criterions.setup(opt, checkpoint, model)
 

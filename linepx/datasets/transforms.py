@@ -26,10 +26,14 @@ def unScaleRGB(ipt):
     return opt
 
 def normalize(ipt, mean, std):
-    ipt[:][:][0] = (ipt[:][:][0] - mean[0]) / std[0]
+    #print(type(ipt), type(mean),type(std))
+    ipt = torch.FloatTensor(ipt)
+    #print(type(ipt), type(mean),type(std))
+    ipt[:][:][0] = (ipt[:][:][0] - mean[0]) 
+    ipt[:][:][0] = ipt[:][:][0] / std[0]
     ipt[:][:][1] = (ipt[:][:][1] - mean[1]) / std[1]
     ipt[:][:][2] = (ipt[:][:][2] - mean[2]) / std[2]
-    return ipt
+    return ipt.numpy()
 
 def unNormalize(ipt, mean, std):
     ipt[:][:][0] = (ipt[:][:][0] * std[0]) + mean[0]
